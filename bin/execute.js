@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import fs from "fs/promises";
 import path from "path";
 import url from "url";
+import util from "util";
 
 // "poylfill" __dirname for ESM
 const __filename = url.fileURLToPath(import.meta.url);
@@ -19,20 +20,48 @@ const client = new MongoClient(mongoUrl);
 
 globalThis.db = client.db(process.env.MONGODB_DBNAME);
 
-async function main() {
-  const contents = await fs.readFile(
-    path.join(__dirname, "../src/index.js"),
-    "utf-8",
+/**
+ * Check if an environment variable has been set to a `true`-like value
+ *
+ * @param {string} varName the name of the field within `process.env` to check
+ *
+ * @example
+ * // checks if `process.env.HELLO_WORLD` is `"true"`, `"yes"`, etc.
+ * const isHelloWorld = envTrue("HELLO_WORLD");
+ */
+function envTrue(varName) {
+  const envVar = process.env[varName];
+
+  return (
+    envVar && ["true", "yes", "1", "on", "y"].includes(envVar.toLowerCase())
   );
-
-  try {
-    const result = await eval(contents);
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-
-  await client.close();
 }
 
-main();
+const logPrompt = envTrue("LOG_PROMPT");
+const colors = !envTrue("DISABLE_COLORS");
+
+const inspect = (/** @type {string} */ arg) =>
+  console.log(util.inspect(arg, { depth: null, colors }));
+
+const contents = await fs.readFile(
+  path.join(__dirname, "../src/index.js"),
+  "utf-8",
+);
+
+try {
+  if (logPrompt) {
+    console.log("--------------- PROMPT ---------------\n");
+    console.log(contents);
+    console.log();
+    console.log("--------------- RESULT ---------------\n");
+  }
+
+  const result = await eval(contents);
+  inspect(result);
+
+  console.log();
+} catch (error) {
+  console.error(error);
+}
+
+await client.close();
