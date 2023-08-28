@@ -5,9 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./scripts/watch.js",
-    "tee": "node ./scripts/tee.js",
-    "once": "node ./bin/main.js"
+    "watch": "node ./scripts/watch.js",
+    "start": "npm run watch",
+    "tee:watch": "node ./scripts/tee.js",
+    "tee": "npm run tee:watch",
+    "once": "node ./bin/main.js",
+    "tee:once": "node ./bin/main.js | tee ./out"
   },
   "keywords": [],
   "author": "",
