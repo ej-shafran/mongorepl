@@ -71,7 +71,7 @@ if (result) {
     // here, we don't need `await` or `return`
     db.collection("otherUsers").findOne({ originalId: result._id }, projection);
 } else {
-    // this can be `awaited`, and will be displayed
+    // since this expression can be `awaited`, it will be displayed
     // no need for `return` or `throw`
     "Could not read result"; 
 }
