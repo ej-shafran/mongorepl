@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import path from "path";
 import url from "url";
 import util from "util";
+import { envTrue } from "../utils/env-true.js";
 
 // "poylfill" __dirname for ESM
 const __filename = url.fileURLToPath(import.meta.url);
@@ -22,23 +23,6 @@ globalThis.ObjectId = ObjectId;
 globalThis.db = client.db(process.env.MONGODB_DBNAME);
 
 /**
- * Check if an environment variable has been set to a `true`-like value
- *
- * @param {string} varName the name of the field within `process.env` to check
- *
- * @example
- * // checks if `process.env.HELLO_WORLD` is `"true"`, `"yes"`, etc.
- * const isHelloWorld = envTrue("HELLO_WORLD");
- */
-function envTrue(varName) {
-  const envVar = process.env[varName];
-
-  return (
-    envVar && ["true", "yes", "1", "on", "y"].includes(envVar.toLowerCase())
-  );
-}
-
-/**
  * Checks if a given argument is a MongoDB Cursor.
  *
  * @param {unknown} arg any argument
@@ -54,7 +38,7 @@ const logFullCursor = envTrue("FULL_CURSOR");
 const silenceWarnings = envTrue("DISABLE_WARNINGS");
 
 const contents = await fs.readFile(
-  path.join(__dirname, "../src/index.js"),
+  path.join(__dirname, "../../src/index.js"),
   "utf-8",
 );
 

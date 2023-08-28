@@ -5,12 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "watch": "node ./scripts/watch.js",
+    "watch": "node ./implementation/scripts/watch.js",
     "start": "npm run watch",
-    "tee:watch": "node ./scripts/tee.js",
+    "tee:watch": "node ./implementation/scripts/tee.js",
     "tee": "npm run tee:watch",
-    "once": "node ./bin/main.js",
-    "tee:once": "node ./bin/main.js | tee ./out"
+    "once": "node ./implementation/bin/main.js",
+    "tee:once": "node ./implementation/bin/main.js | tee ./out"
   },
   "keywords": [],
   "author": "",

@@ -136,4 +136,4 @@ Sets the output file for `tee:watch` mode. Takes precedence over a CLI argument.
 
 ## Customization
 
-There's no hidden code - the entirety of the operation happens within `bin/main.js` (and inside the `scripts` directory for the different scripts). You're more than welcome to take a look if something bothers you and simply change it!
+There's no hidden code - the entirety of the operation happens within `implementation/bin/main.js` (and inside the `implementation/scripts` directory for the different scripts). You're more than welcome to take a look if something bothers you and simply change it!
