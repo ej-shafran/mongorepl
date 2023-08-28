@@ -16,6 +16,7 @@ nodemon({
   env: {
     DISABLE_COLORS: "y",
     LOG_PROMPT: "y",
+    DISABLE_WARNINGS: "y"
   },
   watch: [index, env],
   exec: `node ${bin} | tee ${out}`,

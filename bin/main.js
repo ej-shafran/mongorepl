@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { MongoClient, ObjectId } from "mongodb";
+import { AggregationCursor, FindCursor, MongoClient, ObjectId } from "mongodb";
 import fs from "fs/promises";
 import path from "path";
 import url from "url";
@@ -38,16 +38,34 @@ function envTrue(varName) {
   );
 }
 
+/**
+ * Checks if a given argument is a MongoDB Cursor.
+ *
+ * @param {unknown} arg any argument
+ *
+ * @returns {arg is AggregationCursor | FindCursor} a boolean indicating if the argument can be treated as a cursor
+ */
+const isCursor = (arg) =>
+  arg instanceof AggregationCursor || arg instanceof FindCursor;
+
 const logPrompt = envTrue("LOG_PROMPT");
 const colors = !envTrue("DISABLE_COLORS");
-
-const inspect = (/** @type {string} */ arg) =>
-  console.log(util.inspect(arg, { depth: null, colors }));
+const logFullCursor = envTrue("FULL_CURSOR");
+const silenceWarnings = envTrue("DISABLE_WARNINGS");
 
 const contents = await fs.readFile(
   path.join(__dirname, "../src/index.js"),
   "utf-8",
 );
+
+const log = (/** @type {unknown} */ arg) => {
+  console.log(util.inspect(arg, { depth: null, colors }));
+};
+
+if (!contents) {
+  await client.close();
+  process.exit(0);
+}
 
 try {
   if (logPrompt) {
@@ -58,7 +76,19 @@ try {
   }
 
   const result = await eval(contents);
-  inspect(result);
+  if (!isCursor(result)) {
+    log(result);
+  } else if (logFullCursor) {
+    log(await result.toArray());
+  } else {
+    log(await result.tryNext());
+
+    if (!silenceWarnings)
+      console.log(`
+Recieved cursor; showing partial result
+You can change cursor behavior with the \`FULL_CURSOR\` env variable
+(Or disable this warning with \`DISABLE_WARNINGS\`)`);
+  }
 
   console.log();
 } catch (error) {
