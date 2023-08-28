@@ -54,6 +54,8 @@ Notice that you shouldn't have to:
 - `await` the expression
 - Log the output yourself
 
+The `db` object is available within `src/index.js` with no need for an import, and so is the `ObjectId` class.
+
 The file will be evaluated and run against the database for you when using any of the scripts.
 
 It *is*, however, a regular JavaScript file - you can create variables, import from modules if needed, and the rest. It is important to know that the file should end with an expression that can be `await`ed if you want it to be properly output and displayed using the scripts. If you make multiple database/Mongo-related calls, you will need to `await` all of them but the last one.
