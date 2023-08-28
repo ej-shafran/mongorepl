@@ -5,17 +5,21 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./scripts/watch.js",
+    "tee": "node ./scripts/tee.js",
+    "once": "node ./bin/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
-    "mongodb": "^5.8.1"
+    "mongodb": "^5.8.1",
+    "nodemon": "^3.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
+    "@types/nodemon": "^1.19.2",
     "cz-conventional-changelog": "^3.3.0"
   },
   "config": {
