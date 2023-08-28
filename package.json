@@ -15,6 +15,12 @@
     "mongodb": "^5.8.1"
   },
   "devDependencies": {
-    "@types/node": "^20.5.7"
+    "@types/node": "^20.5.7",
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
