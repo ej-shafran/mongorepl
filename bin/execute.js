@@ -4,9 +4,11 @@ import fs from "fs/promises";
 import path from "path";
 import url from "url";
 
+// "poylfill" __dirname for ESM
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// setup `.env` file
 dotenv.config();
 
 const DEFAULT_URL = "mongodb://localhost:27017";
