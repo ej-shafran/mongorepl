@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import fs from "fs/promises";
 import path from "path";
 import url from "url";
@@ -18,6 +18,7 @@ const mongoUrl = process.env.MONGODB_URL ?? DEFAULT_URL;
 
 const client = new MongoClient(mongoUrl);
 
+globalThis.ObjectId = ObjectId;
 globalThis.db = client.db(process.env.MONGODB_DBNAME);
 
 /**
