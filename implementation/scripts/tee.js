@@ -10,7 +10,7 @@ const index = path.join(__dirname, "../../src/index.js");
 const env = path.join(__dirname, "../../.env");
 const bin = path.join(__dirname, "../bin/main.js");
 const out =
-  process.env.TEE_OUT || process.argv[2] || path.join(__dirname, "../out");
+  process.env.TEE_OUT || process.argv[2] || path.join(__dirname, "../../out");
 
 nodemon({
   ext: "*",
