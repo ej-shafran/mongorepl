@@ -1,5 +1,11 @@
 import dotenv from "dotenv";
-import { AggregationCursor, FindCursor, MongoClient, ObjectId } from "mongodb";
+import {
+  AggregationCursor,
+  FindCursor,
+  MongoClient,
+  ObjectId,
+  Int32,
+} from "mongodb";
 import fs from "fs/promises";
 import path from "path";
 import url from "url";
@@ -20,6 +26,7 @@ const mongoUrl = process.env.MONGODB_URL ?? DEFAULT_URL;
 const client = new MongoClient(mongoUrl);
 
 globalThis.ObjectId = ObjectId;
+globalThis.Int32 = Int32;
 globalThis.db = client.db(process.env.MONGODB_DBNAME);
 
 /**
